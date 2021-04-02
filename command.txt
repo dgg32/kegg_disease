@@ -1,0 +1,19 @@
+LOAD CSV WITH HEADERS FROM 'file:///disease.csv' AS row MERGE (n:disease {name: row.name, ko: row.ko, description: row.description, disease_category:row.disease_category});
+LOAD CSV WITH HEADERS FROM 'file:///drug.csv' AS row MERGE (n:drug {name: row.name, ko: row.ko});
+LOAD CSV WITH HEADERS FROM 'file:///pathogen.csv' AS row MERGE (n:pathogen {name: row.name, ko: row.ko, taxonomy: row.taxonomy});
+
+CREATE CONSTRAINT ON (n:disease) ASSERT n.ko IS UNIQUE;
+CREATE CONSTRAINT ON (n:drug) ASSERT n.ko IS UNIQUE;
+CREATE CONSTRAINT ON (n:pathogen) ASSERT n.ko IS UNIQUE;
+
+LOAD CSV WITH HEADERS FROM 'file:///drug_disease.csv' AS row MERGE (n1:drug {ko: row.from}) MERGE (n2:disease {ko: row.to}) MERGE (n1)-[r:treats]->(n2);
+LOAD CSV WITH HEADERS FROM 'file:///pathogen_disease.csv' AS row MERGE (n1:pathogen {ko: row.from}) MERGE (n2:disease {ko: row.to}) MERGE (n1)-[r:causes]->(n2);
+
+
+
+CALL gds.graph.create.cypher(
+    'my-cypher-graph',
+    'MATCH (n:drug) RETURN disease AS d',
+    'MATCH (a:drug)-[:treats]->(b:disease) RETURN a AS source, b AS target'
+)
+YIELD graphName, nodeCount, relationshipCount, createMillis;
