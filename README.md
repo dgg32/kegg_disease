@@ -39,7 +39,7 @@ python parse_disease.py [kegg_download_folder]
 3. Add taxonomy to pathogen. In step 2, a file called pathogen_tmp.csv is generated. We need to add the taxonomy to it via:
 
 ```console
-python add_taxonomy.py pathogen_tmp.csv > pathogen2.csv
+python add_taxonomy.py pathogen_tmp.csv > pathogen.csv
 ```
 
 4. Put all the CSV files, except pathogen_tmp.csv, into the Import folder of your Neo4j project. And then follow the instruction in the artile.
