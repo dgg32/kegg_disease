@@ -42,7 +42,7 @@ python parse_disease.py [kegg_download_folder]
 python add_taxonomy.py pathogen_tmp.csv > pathogen.csv
 ```
 
-4. Put all the CSV files, except pathogen_tmp.csv, into the Import folder of your Neo4j project. And then follow the instruction in the article.
+4. Put all the CSV files, except pathogen_tmp.csv, into the Import folder of your Neo4j project. And then follow the instruction in the [article](https://towardsdatascience.com/neo4j-for-diseases-959dffb5b479).
   
 
 ## Authors
