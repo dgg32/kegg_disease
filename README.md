@@ -25,7 +25,7 @@ Neo4j Desktop
 
 # Run
 
-
+The data folder contain data from 2021. If you want to download the newest data, do these:
   
 1. Download the KEGG data with its API
 ```console
