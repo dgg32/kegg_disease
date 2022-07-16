@@ -1,5 +1,5 @@
 import sys, re, os
-from urllib.request import urlopen
+import requests
 from threading import Thread
 import queue
 
@@ -13,9 +13,9 @@ output_folder = sys.argv[2]
 
 rx_prefix_catch = re.compile(r'(\w+):\w+')
 
-ko_list_url = "http://rest.kegg.jp/list/" + database
+ko_list_url = "https://rest.kegg.jp/list/" + database
 
-module_url_prefix = "http://rest.kegg.jp/get/"
+module_url_prefix = "https://rest.kegg.jp/get/"
 
 
 in_queue = queue.Queue()
@@ -31,7 +31,7 @@ def work():
 
         
         #try:
-        detail = urlopen(module_url_prefix + package).read().decode("utf-8")
+        detail = requests.get(module_url_prefix + package).text
 
 
             
@@ -66,7 +66,8 @@ for (head, dirs, files) in os.walk(output_folder):
         exists.add(file)
         
 
-ko_list = urlopen(ko_list_url).read().decode("utf-8")
+ko_list = requests.get(ko_list_url).text
+print (ko_list)
 
 for line in ko_list.split("\n"):
     fields = line.strip().split("\t")
